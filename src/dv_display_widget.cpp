@@ -24,6 +24,8 @@
 #include <X11/extensions/XShm.h>
 #include <X11/extensions/Xvlib.h>
 
+extern bool title_safe;
+
 namespace
 {
     template<typename T>
@@ -512,7 +514,8 @@ void dv_full_display_widget::put_frame_buffer(
     frame_ref.pix_fmt = pix_fmt_;
     frame_ref.height = height_;
 
-    video_effect_show_title_safe(frame_ref);
+    if (title_safe)
+	video_effect_show_title_safe(frame_ref);
 
     if (sel_enabled_)
     {

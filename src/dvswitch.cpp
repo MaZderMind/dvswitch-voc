@@ -21,6 +21,7 @@
 #include "server.hpp"
 
 bool expert_mode = false;
+bool title_safe = false;
 
 namespace
 {
@@ -29,6 +30,7 @@ namespace
 	{"port",             1, NULL, 'p'},
 	{"help",             0, NULL, 'H'},
 	{"expert",           0, NULL, 'e'},
+	{"title-safe",       0, NULL, 't'},
 	{NULL,               0, NULL, 0}
     };
 
@@ -49,8 +51,9 @@ namespace
     void usage(const char * progname)
     {
 	std::cerr << "\
-Usage: " << progname << " [gtk-options] \\\n\
-           [{-h|--host} LISTEN-HOST] [{-p|--port} LISTEN-PORT] [{-e|--expert}]\n";
+Usage: " << progname << " [gtk-options] \\\n"
+           "[{-h|--host} LISTEN-HOST] [{-p|--port} LISTEN-PORT] "
+	   "[{-e|--expert}] [{-t|title-safe}]\n";
     }
 }
 
@@ -66,7 +69,7 @@ int main(int argc, char **argv)
 	// Complete option parsing with Gtk's options out of the way.
 
 	int opt;
-	while ((opt = getopt_long(argc, argv, "h:p:", options, NULL)) != -1)
+	while ((opt = getopt_long(argc, argv, "h:p:et", options, NULL)) != -1)
 	{
 	    switch (opt)
 	    {
@@ -81,6 +84,9 @@ int main(int argc, char **argv)
 		return 0;
 	    case 'e':
 		expert_mode = true;
+		break;
+	    case 't':
+		title_safe = true;
 		break;
 	    default:
 		usage(argv[0]);
